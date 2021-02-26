@@ -148,7 +148,7 @@ describe('<PhoneInput /> other props', () => {
     expect(phoneInput.querySelector('.country-list').children.length).toBe(2) // search field & 1 search result
     expect(phoneInput.querySelector('.country-list').children[1].querySelector('.country-name').textContent).toBe('United Kingdom')
   })
-  
+
   test('search "undefined" string returns no non-matching results', () => {
     const { container: phoneInput } = render(
       <PhoneInput
@@ -220,5 +220,60 @@ describe('correct value update', () => {
       />)
 
     expect(phoneInput.querySelector('.form-control').value).toBe('+49 1701 601234')
+  })
+
+  test('should sanitize number when editable country is false and number is like: 2012012011', () => {
+    const { container: phoneInput } = render(
+      <PhoneInput
+        value="2012012011"
+        country="us"
+        countryCodeEditable={false}
+      />)
+
+    expect(phoneInput.querySelector('.form-control').value).toBe('+1 (201) 201-2011')
+  })
+
+  test('should sanitize number when editable country is false and number is like: (201) 201-2011', () => {
+    const { container: phoneInput } = render(
+      <PhoneInput
+        value="(201) 201-2011"
+        country="us"
+        countryCodeEditable={false}
+      />)
+
+    expect(phoneInput.querySelector('.form-control').value).toBe('+1 (201) 201-2011')
+  })
+
+  test('should sanitize number when editable country is false and number is like: 1 (201) 201-2011', () => {
+    const { container: phoneInput } = render(
+      <PhoneInput
+        value="1 (201) 201-2011"
+        country="us"
+        countryCodeEditable={false}
+      />)
+
+    expect(phoneInput.querySelector('.form-control').value).toBe('+1 (201) 201-2011')
+  })
+
+  test('should sanitize number when editable country is false and number is like: 011 1 2012012011', () => {
+    const { container: phoneInput } = render(
+      <PhoneInput
+        value="011 1 2012012011"
+        country="us"
+        countryCodeEditable={false}
+      />)
+
+    expect(phoneInput.querySelector('.form-control').value).toBe('+1 (201) 201-2011')
+  })
+
+  test('should sanitize number when editable country is false and number is like: +1-201-201-2011', () => {
+    const { container: phoneInput } = render(
+      <PhoneInput
+        value="+1-201-201-2011"
+        country="us"
+        countryCodeEditable={false}
+      />)
+
+    expect(phoneInput.querySelector('.form-control').value).toBe('+1 (201) 201-2011')
   })
 })

@@ -180,7 +180,11 @@ class PhoneInput extends React.Component {
       props.prefix, props.defaultMask, props.alwaysDefaultMask,
     );
 
-    const inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
+    let inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
+
+    if (!this.props.countryCodeEditable) {
+      inputNumber = this.correctCountryCodeTransform(inputNumber)
+    }
 
     let countryGuess;
     if (props.disableInitialCountryGuess) {
@@ -240,13 +244,24 @@ class PhoneInput extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps) {
     if (prevProps.country !== this.props.country) {
       this.updateCountry(this.props.country);
     }
     else if (prevProps.value !== this.props.value) {
       this.updateFormattedNumber(this.props.value);
     }
+  }
+
+  correctCountryCodeTransform = inputNumber => {
+    const countryCode = CountryData.getCountryCode(this.props.country);
+    if (inputNumber.startsWith('011')) {
+      inputNumber = inputNumber.slice(3, inputNumber.length);
+    }
+    if (!inputNumber.startsWith(countryCode)) {
+      inputNumber = `${countryCode}${inputNumber}`;
+    }
+    return inputNumber;
   }
 
   getProbableCandidate = memoize((queryString) => {
@@ -331,8 +346,7 @@ class PhoneInput extends React.Component {
     if (selectedCountry && startsWith(value, prefix + selectedCountry.dialCode)) {
       formattedNumber = this.formatNumber(inputNumber, selectedCountry);
       this.setState({ formattedNumber });
-    }
-    else {
+    } else {
       if (this.props.disableCountryGuess) {newSelectedCountry = selectedCountry;}
       else {
         newSelectedCountry = this.guessSelectedCountry(inputNumber.substring(0, 6), country, onlyCountries, hiddenAreaCodes) || selectedCountry;
@@ -501,7 +515,7 @@ class PhoneInput extends React.Component {
   }
 
   handleInput = (e) => {
-    const { value } = e.target;
+    let { value } = e.target;
     const { prefix, onChange } = this.props;
 
     let formattedNumber = this.props.disableCountryCode ? '' : prefix;
@@ -509,13 +523,17 @@ class PhoneInput extends React.Component {
     let freezeSelection = this.state.freezeSelection;
 
     if (!this.props.countryCodeEditable) {
-      const mainCode = newSelectedCountry.hasAreaCodes ?
-        this.state.onlyCountries.find(o => o.iso2 === newSelectedCountry.iso2 && o.mainCode).dialCode :
-        newSelectedCountry.dialCode;
-
+      const mainCode = newSelectedCountry.hasAreaCodes
+         ? this.state.onlyCountries.find(o => o.iso2 === newSelectedCountry.iso2 && o.mainCode).dialCode
+         : newSelectedCountry.dialCode;
       const valueWithPrefix = prefix+value;
       const updatedInput = prefix+mainCode;
       if (value.slice(0, updatedInput.length) !== updatedInput && valueWithPrefix.slice(0, updatedInput.length) !== updatedInput) return;
+
+      const countryCode = CountryData.getCountryCode(this.props.country); // Get country code number that will be set in input by default
+      let inputNumber = value ? value.replace(/\D/g, '') : ''; // Only leave numbers
+      inputNumber = inputNumber.slice(countryCode.length, inputNumber.length); // Remove the country code that is already forced in input
+      value = this.correctCountryCodeTransform(inputNumber); // Transform value to force country area code
     }
 
     if (value === prefix) {
