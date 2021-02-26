@@ -238,4 +238,16 @@ export default class CountryData {
       });
     }
   }
+
+  static getRawData = () => ({
+    rawCountries: _rawCountries,
+    rawTerritories: _rawTerritories,
+  })
+
+  static getCountryCode = country => {
+    const countryData = this.getRawData().rawCountries.find(countryObject => countryObject[2] === country);
+    const countryCode = countryData[3];2
+    return countryCode;
+  }
+
 }

@@ -57,7 +57,7 @@ class Demo extends React.Component {
         `}} />
         <div style={{display: 'inline-block', verticalAlign: 'top'}}>
           <p style={{fontWeight: '500'}}>Created by <a style={{color: '#000'}}
-            href="https://github.com/bl00mber/react-phone-input-international">Jonathan Calb</a></p>
+            href="https://github.com/jonathancalb/react-phone-input-international">Jonathan Calb</a></p>
           <p>
             <span onClick={this.updateStyle}
               className={'style-btn'+('style'==currentStyle?' active':'')}>style</span> — <span onClick={this.updateStyle}

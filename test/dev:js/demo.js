@@ -65,6 +65,8 @@ class Demo extends React.Component {
           <p>Autocomplete</p>
           <PhoneInput
             country='us'
+            onlyCountries={['us']}
+            disableDropdown
             countryCodeEditable={false}
             autocompleteSearch={true}
             inputProps={{

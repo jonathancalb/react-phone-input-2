@@ -3,8 +3,7 @@ Highly customizable phone input component with auto formatting.
 
 [![npm version](https://img.shields.io/npm/v/react-phone-input-international.svg?style=flat)](https://www.npmjs.com/package/react-phone-input-international)
 [![npm downloads](https://img.shields.io/npm/dm/react-phone-input-international.svg?style=flat)](https://www.npmjs.com/package/react-phone-input-international)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/bl00mber/react-phone-input-international#contributing)
-[![travis build](https://travis-ci.org/bl00mber/react-phone-input-international.svg?branch=master)](https://travis-ci.org/bl00mber/react-phone-input-international)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/jonathancalb/react-phone-input-international#contributing)
 
 ![animation](https://media.giphy.com/media/xiORAWnqoTJDsH0UOI/giphy.gif)
 
@@ -25,10 +24,6 @@ import 'react-phone-input-international/lib/style.css'
 />
 ```
 **available styles** - style • high-res • material • bootstrap • semantic-ui • plain
-
-#### [Demo 1 (UI)](https://bl00mber.github.io/react-phone-input-international.html) - [Demo 2 (CSS)](https://bl00mber.github.io/react-phone-input-international-css.html)
-
-![screenshot](https://raw.githubusercontent.com/bl00mber/react-phone-input-international/master/test/screenshot.png)
 
 ## Options
 <table>
@@ -479,8 +474,6 @@ To clear `country`, pass `null` as `value`.
 - Do not send new languages
 
 ## License
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/bl00mber/react-phone-input-international/blob/master/LICENSE)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/jonathancalb/react-phone-input-international/blob/master/LICENSE)
 
-Based on [react-phone-input](https://github.com/razagill/react-phone-input)
-
-Make sure you donated for lib maintenance [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.me/bloomber/20)
+Based on [react-phone-input-2](https://github.com/bl00mber/react-phone-input-2)
