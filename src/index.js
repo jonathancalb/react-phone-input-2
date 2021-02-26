@@ -255,10 +255,10 @@ class PhoneInput extends React.Component {
 
   correctCountryCodeTransform = inputNumber => {
     const countryCode = CountryData.getCountryCode(this.props.country);
-    if (inputNumber.startsWith('011')) {
+    if (inputNumber.startsWith('011')) { // Remove IDD Prefix
       inputNumber = inputNumber.slice(3, inputNumber.length);
     }
-    if (!inputNumber.startsWith(countryCode)) {
+    if (!inputNumber.startsWith(countryCode)) { // Add country code if missing
       inputNumber = `${countryCode}${inputNumber}`;
     }
     return inputNumber;
@@ -526,13 +526,14 @@ class PhoneInput extends React.Component {
       const mainCode = newSelectedCountry.hasAreaCodes
          ? this.state.onlyCountries.find(o => o.iso2 === newSelectedCountry.iso2 && o.mainCode).dialCode
          : newSelectedCountry.dialCode;
-      const valueWithPrefix = prefix+value;
-      const updatedInput = prefix+mainCode;
-      if (value.slice(0, updatedInput.length) !== updatedInput && valueWithPrefix.slice(0, updatedInput.length) !== updatedInput) return;
+      const prefixPlusMainCode = prefix+mainCode;
+      if (value.length < prefixPlusMainCode.length) return;
 
       const countryCode = CountryData.getCountryCode(this.props.country); // Get country code number that will be set in input by default
       let inputNumber = value ? value.replace(/\D/g, '') : ''; // Only leave numbers
-      inputNumber = inputNumber.slice(countryCode.length, inputNumber.length); // Remove the country code that is already forced in input
+      if (value.startsWith(`+${countryCode}`)) {
+        inputNumber = inputNumber.slice(countryCode.length, inputNumber.length); // Remove the country code that is already forced in input
+      }
       value = this.correctCountryCodeTransform(inputNumber); // Transform value to force country area code
     }
 
