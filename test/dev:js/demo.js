@@ -69,9 +69,9 @@ class Demo extends React.Component {
               value=""
               country="us"
               onlyCountries={["us"]}
+              enableLongNumbers={true}
               disableDropdown
               countryCodeEditable={false}
-              autocompleteSearch={true}
               inputProps={{
                 name: "mobileNumber",
                 required: true,

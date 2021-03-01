@@ -255,13 +255,16 @@ class PhoneInput extends React.Component {
 
   correctCountryCodeTransform = inputNumber => {
     const countryCode = CountryData.getCountryCode(this.props.country);
-    if (inputNumber.startsWith('011')) { // Remove IDD Prefix
-      inputNumber = inputNumber.slice(3, inputNumber.length);
+    let newInputNumber = inputNumber;
+
+    if (newInputNumber.startsWith('011')) { // Remove IDD Prefix
+      newInputNumber = newInputNumber.slice(3, newInputNumber.length);
     }
-    if (!inputNumber.startsWith(countryCode)) { // Add country code if missing
-      inputNumber = `${countryCode}${inputNumber}`;
+    newInputNumber = newInputNumber.replace(/^0+/, ''); // Remove leading cero's if any
+    if (!newInputNumber.startsWith(countryCode)) { // Add country code if missing
+      newInputNumber = `${countryCode}${newInputNumber}`;
     }
-    return inputNumber;
+    return newInputNumber;
   }
 
   getProbableCandidate = memoize((queryString) => {
