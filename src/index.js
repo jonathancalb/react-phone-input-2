@@ -182,7 +182,7 @@ class PhoneInput extends React.Component {
 
     let inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
 
-    if (!this.props.countryCodeEditable) {
+    if (this.isCountryCodeNotEditable()) {
       inputNumber = this.correctCountryCodeTransform(inputNumber)
     }
 
@@ -252,6 +252,8 @@ class PhoneInput extends React.Component {
       this.updateFormattedNumber(this.props.value);
     }
   }
+
+  isCountryCodeNotEditable = () => !this.props.countryCodeEditable && this.props.country
 
   correctCountryCodeTransform = inputNumber => {
     const countryCode = CountryData.getCountryCode(this.props.country);
@@ -525,7 +527,7 @@ class PhoneInput extends React.Component {
     let newSelectedCountry = this.state.selectedCountry;
     let freezeSelection = this.state.freezeSelection;
 
-    if (!this.props.countryCodeEditable) {
+    if (this.isCountryCodeNotEditable()) {
       const mainCode = newSelectedCountry.hasAreaCodes
          ? this.state.onlyCountries.find(o => o.iso2 === newSelectedCountry.iso2 && o.mainCode).dialCode
          : newSelectedCountry.dialCode;

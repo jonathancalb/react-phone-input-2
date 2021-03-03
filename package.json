@@ -1,6 +1,6 @@
 {
   "name": "react-phone-input-international",
-  "version": "2.15.2",
+  "version": "2.15.3",
   "description": "A react component to format phone numbers. Fork from https://github.com/bl00mber/react-phone-input-2",
   "main": "lib/lib.js",
   "typings": "index.d.ts",
