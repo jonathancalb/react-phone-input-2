@@ -183,7 +183,7 @@ class PhoneInput extends React.Component {
     let inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
 
     if (this.isCountryCodeNotEditable()) {
-      inputNumber = this.correctCountryCodeTransform(inputNumber)
+      inputNumber = this.correctCountryCodeTransform(inputNumber, false);
     }
 
     let countryGuess;
@@ -255,7 +255,7 @@ class PhoneInput extends React.Component {
 
   isCountryCodeNotEditable = () => !this.props.countryCodeEditable && this.props.country
 
-  correctCountryCodeTransform = inputNumber => {
+  correctCountryCodeTransform = (inputNumber, withoutAreaCode) => {
     const countryCode = CountryData.getCountryCode(this.props.country);
     let newInputNumber = inputNumber;
 
@@ -263,7 +263,7 @@ class PhoneInput extends React.Component {
       newInputNumber = newInputNumber.slice(3, newInputNumber.length);
     }
     newInputNumber = newInputNumber.replace(/^0+/, ''); // Remove leading cero's if any
-    if (!newInputNumber.startsWith(countryCode)) { // Add country code if missing
+    if (!newInputNumber.startsWith(countryCode) || withoutAreaCode) { // Add country code if missing
       newInputNumber = `${countryCode}${newInputNumber}`;
     }
     return newInputNumber;
@@ -539,7 +539,7 @@ class PhoneInput extends React.Component {
       if (value.startsWith(`+${countryCode}`)) {
         inputNumber = inputNumber.slice(countryCode.length, inputNumber.length); // Remove the country code that is already forced in input
       }
-      value = this.correctCountryCodeTransform(inputNumber); // Transform value to force country area code
+      value = this.correctCountryCodeTransform(inputNumber, true); // Transform value to force country area code
     }
 
     if (value === prefix) {

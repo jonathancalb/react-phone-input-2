@@ -246,7 +246,7 @@ export default class CountryData {
 
   static getCountryCode = country => {
     const countryData = this.getRawData().rawCountries.find(countryObject => countryObject[2] === country);
-    const countryCode = countryData[3];2
+    const countryCode = countryData[3];
     return countryCode;
   }
 
