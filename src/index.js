@@ -539,7 +539,12 @@ class PhoneInput extends React.Component {
       if (value.startsWith(`+${countryCode}`)) {
         inputNumber = inputNumber.slice(countryCode.length, inputNumber.length); // Remove the country code that is already forced in input
       }
-      value = this.correctCountryCodeTransform(inputNumber, true); // Transform value to force country area code
+
+      // If is user input is not the area code.
+      // If it's for example from autocomplete it might
+      const isValueWithoutAreaCode = e.nativeEvent.inputType === 'insertText';
+
+      value = this.correctCountryCodeTransform(inputNumber, isValueWithoutAreaCode); // Transform value to force country area code
     }
 
     if (value === prefix) {
