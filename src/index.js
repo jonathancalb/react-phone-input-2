@@ -183,7 +183,7 @@ class PhoneInput extends React.Component {
     let inputNumber = props.value ? props.value.replace(/\D/g, '') : '';
 
     if (this.isCountryCodeNotEditable()) {
-      inputNumber = this.correctCountryCodeTransform(inputNumber, false);
+      inputNumber = this.correctCountryCodeTransform(inputNumber, false, props.onChange);
     }
 
     let countryGuess;
@@ -255,7 +255,7 @@ class PhoneInput extends React.Component {
 
   isCountryCodeNotEditable = () => !this.props.countryCodeEditable && this.props.country
 
-  correctCountryCodeTransform = (inputNumber, withoutAreaCode) => {
+  correctCountryCodeTransform = (inputNumber, withoutAreaCode, onChange) => {
     const countryCode = CountryData.getCountryCode(this.props.country);
     let newInputNumber = inputNumber;
 
@@ -266,6 +266,9 @@ class PhoneInput extends React.Component {
     if (!newInputNumber.startsWith(countryCode) || withoutAreaCode) { // Add country code if missing
       newInputNumber = `${countryCode}${newInputNumber}`;
     }
+
+    if (onChange) onChange(newInputNumber);
+
     return newInputNumber;
   }
 
